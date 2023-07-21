@@ -154,6 +154,12 @@ cython_debug/
 
 examples-json/
 
+# MacOS file artifacts
+.DS_Store
+
+# Temporary test solutions
+temp.json
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
