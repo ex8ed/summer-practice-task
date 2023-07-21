@@ -159,6 +159,7 @@ examples-json/
 
 # Temporary test solutions
 temp.json
+temp.py
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
