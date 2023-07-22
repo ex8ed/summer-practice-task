@@ -81,7 +81,7 @@ class Simulator:
                    2: 'newxim',
                    3: 'topaz',
                    4: 'dec9',
-                   5: 'gpnocsim'}
+                   5: 'gpNocSim'}
 
 
 class Extractor:
