@@ -163,6 +163,7 @@ temp.py
 temp_2.py
 temp_3.py
 temp_4.py
+./UI
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
