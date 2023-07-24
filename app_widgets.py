@@ -43,13 +43,11 @@ class Uocns(QWidget):
         self.flit_size = QLineEdit(self)
         layout.addWidget(self.flit_size)
 
-        # TODO needs an extra check for every field
         row += 1
         layout.addWidget(QLabel('Topology args', self), row, 0)
         self.topology_args = QLineEdit(self)
         layout.addWidget(self.topology_args)
 
-        # TODO need to be checked with docs for args format
         row += 1
         layout.addWidget(QLabel('Algorithm args', self), row, 0)
         self.algorithm_args = QLineEdit(self)
@@ -76,7 +74,6 @@ class Uocns(QWidget):
         self.packet_size_avg = QLineEdit(self)
         layout.addWidget(self.packet_size_avg)
 
-        # TODO must be a bool
         row += 1
         layout.addWidget(QLabel('Packet size is fixed', self), row, 0)
         self.packet_size_is_fixed = QComboBox(self)
