@@ -5,7 +5,7 @@ from json import dumps
 
 class Simulator:
     """Class contains objects for every sim parameter."""
-    def __init__(self, type_, name_):
+    def __init__(self, name_, type_):
         """
         Base sim constructor; provides structures to contain data.
         :param type_: simulator type (booksim, dec9 ...)
@@ -96,14 +96,6 @@ class Extractor:
         self.__name = file_name
         self.__directory = dir_
 
-    def writer(self, obj):
-        """
-        Write info to a JSON file, using information from self fields
-        :param obj: JSON object
-        """
-        with open(f"{self.__directory}{self.__name}.json", 'w') as file:
-            file.writelines(obj)
-
     @classmethod
     def to_json(cls, obj):
         """
@@ -113,3 +105,11 @@ class Extractor:
         :return: JSON formatted given object
         """
         return dumps(obj, indent=2)
+
+    def writer(self, obj):
+        """
+        Write info to a JSON file, using information from self fields
+        :param obj: JSON object
+        """
+        with open(f"{self.__directory}{self.__name}.json", 'w') as file:
+            file.writelines(obj)
