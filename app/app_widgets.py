@@ -385,9 +385,189 @@ class Booksim(QWidget):
 class Newxim(QWidget):
     def __init__(self):
         super().__init__()
+        self.name = 'newxim'
+
+        layout = QGridLayout(self)
+
+        row = 0
+        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+                         row, 0, 1, 2)
+
+        row += 1
+        layout.addWidget(QLabel('Topology', self), row, 0)
+        self.topology = QComboBox(self)
+        self.topology.addItems(['Mesh',
+                                'Torus',
+                                'Tree',
+                                'Circulant'])
+        self.topology.setCurrentIndex(-1)
+        layout.addWidget(self.topology)
+
+        row += 1
+        layout.addWidget(QLabel('Topology channels', self), row, 0)
+        self.topology_channels = QLineEdit(self)
+        layout.addWidget(self.topology_channels)
+
+        row += 1
+        layout.addWidget(QLabel('Selection strategy', self), row, 0)
+        self.selection_strategy = QComboBox(self)
+        self.selection_strategy.addItems(['Random',
+                                          'Buffer level',
+                                          'Keep space',
+                                          'Random keep space'])
+        self.selection_strategy.setCurrentIndex(-1)
+        layout.addWidget(self.selection_strategy)
+
+        row += 1
+        layout.addWidget(QLabel('Simulation time, cycles', self), row, 0)
+        self.simulation_time = QLineEdit(self)
+        layout.addWidget(self.simulation_time)
+
+        row += 1
+        layout.addWidget(QLabel('Topology args', self), row, 0)
+        self.topology_args = QLineEdit(self)
+        layout.addWidget(self.topology_args)
+
+        row += 1
+        layout.addWidget(QLabel('Virtual channels', self), row, 0)
+        self.virtual_channels = QLineEdit(self)
+        layout.addWidget(self.virtual_channels)
+
+        row = 1
+        layout.addWidget(QLabel('Min packet size, bits', self), row, 2)
+        self.min_packet_size = QLineEdit(self)
+        layout.addWidget(self.min_packet_size, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Warm up time, cycles', self), row, 2)
+        self.warm_up_time = QLineEdit(self)
+        layout.addWidget(self.warm_up_time, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Routing algorithm', self), row, 2)
+        self.routing_algorithm = QComboBox(self)
+        self.routing_algorithm.addItems(['Dijkstra',
+                                         'Up Down',
+                                         'Mesh XY',
+                                         'Circulant Pair Exchange',
+                                         'Greedy Promotion',
+                                         'Circulant Multiplicative',
+                                         'Circulant Clockwise',
+                                         'Circulant Adaptive'])
+        self.routing_algorithm.setCurrentIndex(-1)
+        layout.addWidget(self.routing_algorithm, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Buffer depth', self), row, 2)
+        self.buffer_depth = QLineEdit(self)
+        layout.addWidget(self.buffer_depth, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Max packet size, flits', self), row, 2)
+        self.max_packet_size = QLineEdit(self)
+        layout.addWidget(self.max_packet_size, row, 3)
 
     def read_fields(self):
-        ...
+        s = Simulator(self.name, 2)
+
+        topology = self.topology.currentIndex()
+        topology_channels = self.topology_channels.text()
+        selection_strategy = self.selection_strategy.currentIndex()
+        simulation_time = self.simulation_time.text()
+        topology_args = self.topology_args.text().split()
+        virtual_channels = self.virtual_channels.text()
+        min_packet_size = self.min_packet_size.text()
+        warm_up_time = self.warm_up_time.text()
+        routing_algorithm = self.routing_algorithm.currentIndex()
+        buffer_depth = self.buffer_depth.text()
+        max_packet_size = self.max_packet_size.text()
+
+        if not topology_channels.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Topology channels"')
+            return None
+        elif int(topology_channels) != 1:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Topology channels" должно принимать значение 1')
+            return None
+
+        if not simulation_time.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Simulation time"')
+            return None
+        elif int(simulation_time) < 5000 or int(simulation_time) > 100000:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Simulation time" должно принимать значение от 5000 до 100000')
+            return None
+
+        for arg in topology_args:
+            if not arg.isdigit():
+                QMessageBox.warning(self,
+                                    "Ошибка!",
+                                    'Необходимы числовые значения в поле Topology args\
+                                    \nПомните, они должны быть корректными по документации')
+                return None
+
+        if not virtual_channels.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Virtual channels"')
+            return None
+        elif int(virtual_channels) < 1 or int(virtual_channels) > 10:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Virtual channels" должно принимать значение от 1 до 10')
+            return None
+
+        if not min_packet_size.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Min packet size, flits"')
+            return None
+        elif int(min_packet_size) < 1 or int(min_packet_size) > 100:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Min packet size, flits" должно принимать значение от 1 до 100')
+            return None
+
+        if not warm_up_time.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Warm up time, cycles"')
+            return None
+        elif int(warm_up_time) < 0 or int(warm_up_time) > 10:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Warm up time, cycles" должно принимать значение от 1 до 10')
+            return None
+
+        if not buffer_depth.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Warm up time, cycles"')
+            return None
+        elif int(buffer_depth) < 1 or int(buffer_depth) > 128:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Buffer depth, flits" должно принимать значение от 1 до 128')
+            return None
+
+        if not max_packet_size.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Max packet size, flits"')
+            return None
+        elif int(max_packet_size) < 1 or int(max_packet_size) > 100:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Buffer depth, flits" должно принимать значение от 1 до 100')
+            return None
+
+        s.set_parameter('Topology', topology)
+        s.set_parameter('TopologyArgs', topology_args)
+        s.set_parameter('RoutingAlgorithm', routing_algorithm)
+        s.set_parameter('SelectionStrategy', selection_strategy)
+        s.set_parameter('TopologyChannels', topology_channels)
+        s.set_parameter('VirtualChannels', virtual_channels)
+        s.set_parameter('BufferDepth', buffer_depth)
+        s.set_parameter('MinPacketSize', min_packet_size)
+        s.set_parameter('MaxPacketSize', max_packet_size)
+        # default value that could be changed in UHLNoCS
+        s.set_parameter('PacketInjectionRate', [i / 100 for i in range(5, 100, 10)])
+        s.set_parameter('SimulationTime', simulation_time)
+        s.set_parameter('WarmUpTime', warm_up_time)
+
+        return s
 
 
 class Topaz(QWidget):
