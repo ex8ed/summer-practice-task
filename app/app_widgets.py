@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """Contains widgets for main GUI file"""
 
-
+from random import randint
 from PySide6.QtWidgets import (QLabel,
                                QComboBox,
                                QLineEdit,
@@ -574,8 +574,146 @@ class Topaz(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.name = 'topaz'
+
+        layout = QGridLayout(self)
+
+        row = 0
+        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+                         row, 0, 1, 2)
+
+        row += 1
+        layout.addWidget(QLabel('Router', self), row, 0)
+        self.router = QComboBox(self)
+        self.router.addItems(['Ligero',
+                              'Ligero MCAST',
+                              'Mesh CT NOC',
+                              'Mesh WH NOC',
+                              'Mesh DAMQ NOC',
+                              'Mesh CT FAST NOC',
+                              'Torus CT NOC',
+                              'Torus Bless'])
+        self.router.setCurrentIndex(-1)
+        layout.addWidget(self.router)
+
+        row += 1
+        layout.addWidget(QLabel('Traffic pattern', self), row, 0)
+        self.traffic_pattern = QComboBox(self)
+        self.traffic_pattern.addItems(['Modal', 'Reactive'])
+        self.traffic_pattern.setCurrentIndex(-1)
+        layout.addWidget(self.traffic_pattern)
+
+        row += 1
+        layout.addWidget(QLabel('Message length, packets', self), row, 0)
+        self.message_length = QLineEdit(self)
+        layout.addWidget(self.message_length)
+
+        row += 1
+        layout.addWidget(QLabel('Flit size, bits', self), row, 0)
+        self.flit_size = QLineEdit(self)
+        layout.addWidget(self.flit_size)
+
+        row += 1
+        layout.addWidget(QLabel('Network Arguments'), row, 0)
+        self.network_arguments = QLineEdit(self)
+        layout.addWidget(self.network_arguments)
+
+        row += 1
+        layout.addWidget(QLabel('Traffic pattern type', self), row, 0)
+        self.traffic_pattern_type = QComboBox(self)
+        self.traffic_pattern_type.addItems(['Random',
+                                            'Bit reversal',
+                                            'Perfect shuffle',
+                                            'Permutation',
+                                            'Tornado',
+                                            'Local'])
+        self.traffic_pattern_type.setCurrentIndex(-1)
+        layout.addWidget(self.traffic_pattern_type)
+
+        row = 1
+        layout.addWidget((QLabel('Packet length, flits', self)), row, 2)
+        self.packet_length = QLineEdit(self)
+        layout.addWidget(self.packet_length, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Simulation cycles', self), row, 2)
+        self.simulation_cycles = QLineEdit(self)
+        layout.addWidget(self.simulation_cycles, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Model name', self), row, 2)
+        self.model_name = QLineEdit(self)
+        layout.addWidget(self.model_name, row, 3)
+
     def read_fields(self):
-        ...
+        s = Simulator(self.name, 3)
+
+        router = self.router.currentIndex()
+        traffic_pattern = self.traffic_pattern.currentIndex()
+        message_length = self.message_length.text()
+        flit_size = self.flit_size.text()
+        network_arguments = self.network_arguments.text()
+        traffic_pattern_type = self.traffic_pattern_type.currentIndex()
+        packet_length = self.packet_length.text()
+        simulation_cycles = self.simulation_cycles.text()
+        model_name = self.model_name  # must be a str
+
+        if not message_length.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Message length, packets"')
+            return None
+        elif int(message_length) != 1:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Message length, packets" должно принимать значение 1')
+            return None
+
+        if not flit_size.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Flit size, bits"')
+            return None
+        elif int(flit_size) < 1 or int(flit_size) > 256:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Flit size, bits" должно принимать значение от 1 до 256')
+            return None
+
+        for arg in network_arguments:
+            if not arg.isdigit():
+                QMessageBox.warning(self, "Ошибка!",
+                                    'Необходимы числовые значения в поле "Network arguments"\
+                                    \nПомните, они должны быть корректными по документации!')
+                return None
+
+        if not packet_length.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Packet length, flits"')
+            return None
+        elif int(packet_length) < 1 or int(packet_length) > 100:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Packet length, flits" должно принимать значение от 1 до 256')
+            return None
+
+        if not simulation_cycles.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Simulation cycles"')
+            return None
+        elif int(simulation_cycles) < 5000 or int(simulation_cycles) > 100000:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Simulation cycles" должно принимать значение от 1 до 256')
+            return None
+
+        s.set_parameter('Simulation', model_name)
+        s.set_parameter('TopologyArgs', network_arguments)
+        s.set_parameter('SimulationCycles', simulation_cycles)
+        s.set_parameter('Router', router)
+        s.set_parameter('TrafficPatternId', traffic_pattern)
+        s.set_parameter('TopazTrafficPatternTypes', traffic_pattern_type)
+        s.set_parameter('Seed', randint(1000, 9999))
+        s.set_parameter('Load', [i / 10 for i in range(1, 11)])
+        s.set_parameter('MessageLength', message_length)
+        s.set_parameter('PacketLength', packet_length)
+        s.set_parameter('FlitSize', flit_size)
+
+        return s
 
 
 class Dec9(QWidget):
@@ -589,6 +727,9 @@ class Dec9(QWidget):
 class GpNocSim(QWidget):
     def __init__(self):
         super().__init__()
+
+
+
 
     def read_fields(self):
         ...
