@@ -11,15 +11,20 @@ from PySide6.QtWidgets import (QApplication,
                                QWidget,
                                QStackedWidget)
 
-from app.app_widgets import Uocns, Booksim
-from config.style_settings import Q_MAIN_WINDOW_STYLE
+from app.app_widgets import (Uocns,
+                             Booksim,
+                             Newxim,
+                             Topaz,
+                             Dec9)
+
+from config.style_settings import (Q_MAIN_WINDOW_STYLE,
+                                   Q_SIM_COMBO_BOX_WIDTH)
 
 
 class SimulatorApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("UHLNoCS config generator")
-
         self.setStyleSheet(Q_MAIN_WINDOW_STYLE)
 
         # main widgets and layouts:
@@ -35,14 +40,21 @@ class SimulatorApp(QMainWindow):
                              'topaz',
                              'dec9',
                              'gpNocSim'])
-        self.c_box.setFixedWidth(200)
+        self.c_box.setFixedWidth(Q_SIM_COMBO_BOX_WIDTH)
+
         # instances for sim-params parts:
         self.uocns_UI = Uocns()
         self.booksim_UI = Booksim()
+        self.newxim_UI = Newxim()
+        self.topaz_UI = Topaz()
+        self.dec9_UI = Dec9()
 
         self.Stack = QStackedWidget(self)
         self.Stack.addWidget(self.uocns_UI)
         self.Stack.addWidget(self.booksim_UI)
+        self.Stack.addWidget(self.newxim_UI)
+        self.Stack.addWidget(self.topaz_UI)
+        self.Stack.addWidget(self.dec9_UI)
 
         layout.addWidget(QLabel('<h2>Select sim:</h2>', self))
         layout.addWidget(self.c_box)
