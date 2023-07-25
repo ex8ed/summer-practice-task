@@ -652,7 +652,7 @@ class Topaz(QWidget):
         traffic_pattern = self.traffic_pattern.currentIndex()
         message_length = self.message_length.text()
         flit_size = self.flit_size.text()
-        network_arguments = self.network_arguments.text()
+        network_arguments = self.network_arguments.text().split()
         traffic_pattern_type = self.traffic_pattern_type.currentIndex()
         packet_length = self.packet_length.text()
         simulation_cycles = self.simulation_cycles.text()
@@ -719,17 +719,82 @@ class Topaz(QWidget):
 class Dec9(QWidget):
     def __init__(self):
         super().__init__()
+        self.name = 'dec9'
+
+        layout = QGridLayout(self)
+
+        row = 0
+        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+                         row, 0, 1, 2)
+
+        row += 1
+        layout.addWidget(QLabel('Topology', self), row, 0)
+        self.topology = QComboBox(self)
+        self.topology.addItems(['Mesh', 'Circulant'])
+        self.topology.setCurrentIndex(-1)
+        layout.addWidget(self.topology)
+
+        row += 1
+        layout.addWidget(QLabel('Cycle count', self), row, 0)
+        self.cycle_count = QLineEdit(self)
+        layout.addWidget(self.cycle_count)
+
+        row += 1
+        layout.addWidget(QLabel('Topology args', self), row, 0)
+        self.topology_args = QLineEdit(self)
+        layout.addWidget(self.topology_args)
+
+        row += 1
+        layout.addWidget(QLabel('Message length', self), row, 0)
+        self.message_length = QLineEdit(self)
+        layout.addWidget(self.message_length)
 
     def read_fields(self):
-        ...
+        s = Simulator(self.name, 4)
+
+        topology = self.topology.currentIndex()
+        topology_args = self.topology_args.text().split()
+        cycle_count = self.cycle_count.text()
+        message_length = self.message_length.text()
+
+        for arg in topology_args:
+            if not arg.isdigit():
+                QMessageBox.warning(self,
+                                    "Ошибка!",
+                                    'Необходимы числовые значения в поле Topology args\
+                                    \nПомните, они должны быть корректными по документации')
+                return None
+
+        if not cycle_count.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Cycle count"')
+            return None
+        elif int(cycle_count) < 500 or int(cycle_count) > 100000:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Cycle count" должно принимать значение от 500 до 100000')
+            return None
+
+        if not message_length.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Message length"')
+            return None
+        elif int(message_length) < 1 or int(message_length) > 100:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Message length" должно принимать значение от 1 до 100')
+            return None
+
+        s.set_parameter('Topology', topology)
+        s.set_parameter('TopologyArgs', topology_args)
+        s.set_parameter('CycleCount', cycle_count)
+        s.set_parameter('MessageLength', message_length)
+        s.set_parameter('InjectionRate', [i / 100 for i in range(5, 100, 10)])
+
+        return s
 
 
 class GpNocSim(QWidget):
     def __init__(self):
         super().__init__()
-
-
-
 
     def read_fields(self):
         ...
