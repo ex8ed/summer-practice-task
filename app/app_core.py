@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-"""Here is core-app elements - source for generation"""
+"""Contains core functions to make simulators structure and to write it to a file"""
 from json import dumps
 
 
