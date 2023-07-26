@@ -22,6 +22,6 @@ This is the main script with main window structure. Start this file to run the a
 > edit structure of this file.
 
 
-Nick Proshak,
-Copyright (c) 2023, MIT licence,
+Nick Proshak,\
+Copyright (c) 2023, MIT licence,\
 HSE summer practice task.
