@@ -9,6 +9,9 @@ from PySide6.QtWidgets import (QLabel,
                                QMessageBox,
                                QGridLayout)
 
+from config.style_settings import (DEC_9_WIDGET_COMBO_BOX_WIDTH,
+                                   DEC_9_WIDGET_LINE_EDIT_WIDTH)
+
 from app.app_core import Simulator
 
 
@@ -19,7 +22,7 @@ class Uocns(QWidget):
         layout = QGridLayout(self)
         row = 0
 
-        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+        layout.addWidget(QLabel(f'<h3> Specify parameters for {self.name}:</h3>', self),
                          row, 0, 1, 2)
 
         row += 1
@@ -205,7 +208,7 @@ class Booksim(QWidget):
         layout = QGridLayout(self)
         row = 0
 
-        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+        layout.addWidget(QLabel(f'<h3> Specify parameters for {self.name}:</h3>', self),
                          row, 0, 1, 2)
 
         row += 1
@@ -390,7 +393,7 @@ class Newxim(QWidget):
         layout = QGridLayout(self)
 
         row = 0
-        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+        layout.addWidget(QLabel(f'<h3> Specify parameters for {self.name}:</h3>', self),
                          row, 0, 1, 2)
 
         row += 1
@@ -579,7 +582,7 @@ class Topaz(QWidget):
         layout = QGridLayout(self)
 
         row = 0
-        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+        layout.addWidget(QLabel(f'<h3> Specify parameters for {self.name}:</h3>', self),
                          row, 0, 1, 2)
 
         row += 1
@@ -716,7 +719,7 @@ class Topaz(QWidget):
         return s
 
 
-class Dec9(QWidget):
+class Dec9(QWidget):  # TODO: set alignment to the top of stack widget
     def __init__(self):
         super().__init__()
         self.name = 'dec9'
@@ -724,7 +727,7 @@ class Dec9(QWidget):
         layout = QGridLayout(self)
 
         row = 0
-        layout.addWidget(QLabel(f'<h2> Specify parameters for {self.name}:</h2>', self),
+        layout.addWidget(QLabel(f'<h3> Specify parameters for {self.name}:</h3>', self),
                          row, 0, 1, 2)
 
         row += 1
@@ -732,21 +735,25 @@ class Dec9(QWidget):
         self.topology = QComboBox(self)
         self.topology.addItems(['Mesh', 'Circulant'])
         self.topology.setCurrentIndex(-1)
+        self.topology.setFixedWidth(DEC_9_WIDGET_COMBO_BOX_WIDTH)
         layout.addWidget(self.topology)
 
         row += 1
         layout.addWidget(QLabel('Cycle count', self), row, 0)
         self.cycle_count = QLineEdit(self)
+        self.cycle_count.setFixedWidth(DEC_9_WIDGET_LINE_EDIT_WIDTH)
         layout.addWidget(self.cycle_count)
 
         row += 1
         layout.addWidget(QLabel('Topology args', self), row, 0)
         self.topology_args = QLineEdit(self)
+        self.topology_args.setFixedWidth(DEC_9_WIDGET_LINE_EDIT_WIDTH)
         layout.addWidget(self.topology_args)
 
         row += 1
         layout.addWidget(QLabel('Message length', self), row, 0)
         self.message_length = QLineEdit(self)
+        self.message_length.setFixedWidth(DEC_9_WIDGET_LINE_EDIT_WIDTH)
         layout.addWidget(self.message_length)
 
     def read_fields(self):
@@ -796,5 +803,170 @@ class GpNocSim(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.name = 'gpNocSim'
+
+        layout = QGridLayout(self)
+
+        row = 0
+        layout.addWidget(QLabel(f'<h3> Specify parameters for {self.name}:</h3>', self),
+                         row, 0, 1, 2)
+
+        row += 1
+        layout.addWidget(QLabel('Topology', self), row, 0)
+        self.topology = QComboBox(self)
+        self.topology.addItems(['Mesh',
+                                'Torus',
+                                'Tree',
+                                'Circulant'])
+        self.topology.setCurrentIndex(-1)
+        layout.addWidget(self.topology)
+
+        row += 1
+        layout.addWidget(QLabel('Average message length', self), row, 0)
+        self.avg_message_length = QLineEdit(self)
+        layout.addWidget(self.avg_message_length)
+
+        row += 1
+        layout.addWidget(QLabel('Flit length', self), row, 0)
+        self.flit_length = QLineEdit(self)
+        layout.addWidget(self.flit_length)
+
+        row += 1
+        layout.addWidget(QLabel('Number of nodes', self), row, 0)
+        self.number_of_nodes = QLineEdit(self)
+        layout.addWidget(self.number_of_nodes)
+
+        row += 1
+        layout.addWidget(QLabel('Virtual channels number', self), row, 0)
+        self.virtual_channels_num = QLineEdit(self)
+        layout.addWidget(self.virtual_channels_num)
+
+        row += 1
+        layout.addWidget(QLabel('Number of flits per buf', self), row, 0)
+        self.number_of_flits = QLineEdit(self)
+        layout.addWidget(self.number_of_flits)
+
+        row = 1
+        layout.addWidget(QLabel('Number of cycles', self), row, 2)
+        self.number_of_cycles = QLineEdit(self)
+        layout.addWidget(self.number_of_cycles, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Number of runs', self), row, 2)
+        self.number_of_runs = QLineEdit(self)
+        layout.addWidget(self.number_of_runs, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Warm up cycles', self), row, 2)
+        self.warm_up_cycles = QLineEdit(self)
+        layout.addWidget(self.warm_up_cycles, row, 3)
+
+        row += 1
+        layout.addWidget(QLabel('Traffic type', self), row, 2)
+        self.traffic_type = QComboBox(self)
+        self.traffic_type.addItems(['Uniform', 'Local'])
+        self.traffic_type.setCurrentIndex(-1)
+        layout.addWidget(self.traffic_type, row, 3)
+
     def read_fields(self):
-        ...
+        s = Simulator(self.name, 5)
+
+        topology = self.topology.currentIndex()
+        avg_message_len = self.avg_message_length.text()
+        flit_length = self.flit_length.text()
+        number_of_nodes = self.number_of_nodes.text()
+        virtual_channels_count = self.virtual_channels_num.text()
+        number_of_flits = self.number_of_flits.text()
+        number_of_cycles = self.number_of_cycles.text()
+        number_of_runs = self.number_of_runs.text()
+        warm_up_cycle = self.warm_up_cycles.text()
+        traffic_type = self.traffic_type.currentIndex()
+
+        if not avg_message_len.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Average message length"')
+            return None
+        elif int(avg_message_len) < -2147483648 or int(avg_message_len) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Average message length" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not flit_length.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Flit length"')
+            return None
+        elif int(flit_length) < -2147483648 or int(flit_length) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Flit length" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not number_of_nodes.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Number of nodes"')
+            return None
+        elif int(number_of_nodes) < -2147483648 or int(number_of_nodes) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Number of nodes" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not virtual_channels_count.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Virtual channels count"')
+            return None
+        elif int(virtual_channels_count) < -2147483648 or int(virtual_channels_count) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Virtual channels count" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not number_of_flits.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Number of flits"')
+            return None
+        elif int(number_of_flits) < -2147483648 or int(number_of_flits) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Number of flits" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not number_of_cycles.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Number of cycles"')
+            return None
+        elif int(number_of_cycles) < -2147483648 or int(number_of_cycles) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Number of cycles" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not number_of_runs.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Number of runs"')
+            return None
+        elif int(number_of_runs) < -2147483648 or int(number_of_runs) > 2147483647:
+            QMessageBox.warning(self, "Ошибка!",
+                                'Значение в поле "Number of runs" должно принимать значение от -2147483648 до '
+                                '2147483647')
+            return None
+
+        if not warm_up_cycle.isdigit():
+            QMessageBox.warning(self, "Ошибка!",
+                                'Необходимо числовое значение в поле "Warm Up Cycle"')
+            return None
+
+        s.set_parameter('CurrentNet', topology)
+        s.set_parameter('AvgInterArrival', [i * 10 for i in range(5, 15)])
+        s.set_parameter('AvgMessageLength', avg_message_len)
+        s.set_parameter('FlitLength', flit_length)
+        s.set_parameter('NumOfIpNode', number_of_nodes)
+        s.set_parameter('CurrentVcCount', virtual_channels_count)
+        s.set_parameter('NumFlitPerBuffer', number_of_flits)
+        s.set_parameter('NumCycle', number_of_cycles)
+        s.set_parameter('NumRun', number_of_cycles)
+        s.set_parameter('TrafficType', traffic_type)
+        s.set_parameter('WarmUpCycle', warm_up_cycle)
+
+        return s
