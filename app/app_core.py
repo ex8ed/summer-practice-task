@@ -111,5 +111,5 @@ class Extractor:
         Write info to a JSON file, using information from self fields
         :param obj: JSON object
         """
-        with open(f"{self.__directory}{self.__name}.json", 'w') as file:
+        with open(f"{self.__directory}{self.__name}.json", 'a+') as file:
             file.writelines(obj)
