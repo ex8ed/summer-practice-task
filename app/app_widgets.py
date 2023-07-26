@@ -176,7 +176,7 @@ class Uocns(QWidget):
             return None
 
         if not count_packet_rx_warm_up.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Packet size avg"')
+            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Count packet rx warm up"')
             return None
         elif int(count_packet_rx_warm_up) < 0 or int(count_packet_rx_warm_up) > 1000:
             QMessageBox.warning(self,
@@ -185,7 +185,7 @@ class Uocns(QWidget):
             return None
 
         s.set_parameter('Topology', topology)
-        s.set_parameter('TopologyArguments', topology_args)
+        s.set_parameter('TopologyArguments', list(map(int, topology_args)))
         s.set_parameter('Algorithm', algorithm)
         s.set_parameter('AlgorithmArguments', algorithm_args)
         s.set_parameter('FifoSize', fifo_size)
@@ -317,7 +317,7 @@ class Booksim(QWidget):
         elif int(sample_period) < 5000 or int(sample_period) > 100000:
             QMessageBox.warning(self,
                                 "Ошибка!",
-                                'Поле "Virtual channels number" должно принимать значение от 5000 до 100000')
+                                'Поле "Sample period, cycles" должно принимать значение от 5000 до 100000')
             return None
 
         for arg in topology_args:
@@ -335,7 +335,7 @@ class Booksim(QWidget):
         elif int(virtual_channels_buffer) < 1 or int(virtual_channels_buffer) > 128:
             QMessageBox.warning(self,
                                 "Ошибка!",
-                                'Поле "Virtual channels buffer" должно принимать значение от 1 до 128')
+                                'Поле "Virtual channels buffer size" должно принимать значение от 1 до 128')
             return None
 
         if not packet_size.isdigit():
@@ -369,7 +369,7 @@ class Booksim(QWidget):
             return None
 
         s.set_parameter('Topology', topology)
-        s.set_parameter('TopologyArgs', topology_args)
+        s.set_parameter('TopologyArgs', list(map(int, topology_args)))
         s.set_parameter('RoutingFunction', routing_function)
         s.set_parameter('VirtualChannelsNum', virtual_channels_number)
         s.set_parameter('VirtualChannelBufSize', virtual_channels_buffer)
@@ -540,7 +540,7 @@ class Newxim(QWidget):
 
         if not buffer_depth.isdigit():
             QMessageBox.warning(self, "Ошибка!",
-                                'Необходимо числовое значение в поле "Warm up time, cycles"')
+                                'Необходимо числовое значение в поле "Buffer depth, flits"')
             return None
         elif int(buffer_depth) < 1 or int(buffer_depth) > 128:
             QMessageBox.warning(self, "Ошибка!",
@@ -553,11 +553,11 @@ class Newxim(QWidget):
             return None
         elif int(max_packet_size) < 1 or int(max_packet_size) > 100:
             QMessageBox.warning(self, "Ошибка!",
-                                'Значение в поле "Buffer depth, flits" должно принимать значение от 1 до 100')
+                                'Значение в поле "Max packet size, flits" должно принимать значение от 1 до 100')
             return None
 
         s.set_parameter('Topology', topology)
-        s.set_parameter('TopologyArgs', topology_args)
+        s.set_parameter('TopologyArgs', list(map(int, topology_args)))
         s.set_parameter('RoutingAlgorithm', routing_algorithm)
         s.set_parameter('SelectionStrategy', selection_strategy)
         s.set_parameter('TopologyChannels', topology_channels)
@@ -705,7 +705,7 @@ class Topaz(QWidget):
             return None
 
         s.set_parameter('Simulation', model_name)
-        s.set_parameter('TopologyArgs', network_arguments)
+        s.set_parameter('TopologyArgs', list(map(int, network_arguments)))
         s.set_parameter('SimulationCycles', simulation_cycles)
         s.set_parameter('Router', router)
         s.set_parameter('TrafficPatternId', traffic_pattern)
@@ -791,7 +791,7 @@ class Dec9(QWidget):
             return None
 
         s.set_parameter('Topology', topology)
-        s.set_parameter('TopologyArgs', topology_args)
+        s.set_parameter('TopologyArgs', list(map(int, topology_args)))
         s.set_parameter('CycleCount', cycle_count)
         s.set_parameter('MessageLength', message_length)
         s.set_parameter('InjectionRate', [i / 100 for i in range(5, 100, 10)])
