@@ -719,7 +719,7 @@ class Topaz(QWidget):
         return s
 
 
-class Dec9(QWidget):  # TODO: set alignment to the top of stack widget
+class Dec9(QWidget):
     def __init__(self):
         super().__init__()
         self.name = 'dec9'
