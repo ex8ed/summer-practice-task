@@ -15,6 +15,15 @@ from config.style_settings import (DEC_9_WIDGET_COMBO_BOX_WIDTH,
 from app.app_core import Simulator
 
 
+def isfloat(float_num_str):
+    try:
+        float(float_num_str)
+    except ValueError:
+        return False
+    else:
+        return True
+
+
 class Uocns(QWidget):
     def __init__(self):
         super().__init__(None)
@@ -188,15 +197,16 @@ class Uocns(QWidget):
         s.set_parameter('TopologyArguments', list(map(int, topology_args)))
         s.set_parameter('Algorithm', algorithm)
         s.set_parameter('AlgorithmArguments', algorithm_args)
-        s.set_parameter('FifoSize', fifo_size)
-        s.set_parameter('FlitSize', flit_size)
-        s.set_parameter('PacketSizeAvg', packet_size_avg)
+        s.set_parameter('FifoSize', int(fifo_size))
+        s.set_parameter('FifoCount', int(fifo_count))
+        s.set_parameter('FlitSize', int(flit_size))
+        s.set_parameter('PacketSizeAvg', int(packet_size_avg))
         s.set_parameter('PacketSizeIsFixed', packet_size_is_fixed == 0)
         s.set_parameter('PacketPeriodAvg', list(range(5, 100, 10)))  # default value that could be changed in UHLNoCS
-        s.set_parameter('CountRun', count_run)
-        s.set_parameter('CountPacketRx', count_packet_rx)
-        s.set_parameter('CountPacketRxWarmUp', count_packet_rx_warm_up)
-        s.set_parameter('IsModeGALS', is_mode_gals)
+        s.set_parameter('CountRun', int(count_run))
+        s.set_parameter('CountPacketRx', int(count_packet_rx))
+        s.set_parameter('CountPacketRxWarmUp', int(count_packet_rx_warm_up))
+        s.set_parameter('IsModeGALS', is_mode_gals == 0)
 
         return s
 
@@ -371,16 +381,16 @@ class Booksim(QWidget):
         s.set_parameter('Topology', topology)
         s.set_parameter('TopologyArgs', list(map(int, topology_args)))
         s.set_parameter('RoutingFunction', routing_function)
-        s.set_parameter('VirtualChannelsNum', virtual_channels_number)
-        s.set_parameter('VirtualChannelBufSize', virtual_channels_buffer)
+        s.set_parameter('VirtualChannelsNum', int(virtual_channels_number))
+        s.set_parameter('VirtualChannelBufSize', int(virtual_channels_buffer))
         s.set_parameter('TrafficDistribution', traffic_distribution)
-        s.set_parameter('PacketSize', packet_size)
+        s.set_parameter('PacketSize', int(packet_size))
         s.set_parameter('SimType', simulation_type)
         # default value that could be changed in UHLNoCS
         s.set_parameter('InjectionRate', [i / 100 for i in range(5, 100, 10)])
-        s.set_parameter('SamplePeriod', sample_period)
-        s.set_parameter('WarmUpPeriods', warm_up_periods)
-        s.set_parameter('MaxSamples', max_samples)
+        s.set_parameter('SamplePeriod', int(sample_period))
+        s.set_parameter('WarmUpPeriods', int(warm_up_periods))
+        s.set_parameter('MaxSamples', int(max_samples))
 
         return s
 
@@ -559,16 +569,16 @@ class Newxim(QWidget):
         s.set_parameter('Topology', topology)
         s.set_parameter('TopologyArgs', list(map(int, topology_args)))
         s.set_parameter('RoutingAlgorithm', routing_algorithm)
-        s.set_parameter('SelectionStrategy', selection_strategy)
-        s.set_parameter('TopologyChannels', topology_channels)
-        s.set_parameter('VirtualChannels', virtual_channels)
-        s.set_parameter('BufferDepth', buffer_depth)
-        s.set_parameter('MinPacketSize', min_packet_size)
-        s.set_parameter('MaxPacketSize', max_packet_size)
+        s.set_parameter('SelectionStrategy', int(selection_strategy))
+        s.set_parameter('TopologyChannels', int(topology_channels))
+        s.set_parameter('VirtualChannels', int(virtual_channels))
+        s.set_parameter('BufferDepth', int(buffer_depth))
+        s.set_parameter('MinPacketSize', int(min_packet_size))
+        s.set_parameter('MaxPacketSize', int(max_packet_size))
         # default value that could be changed in UHLNoCS
         s.set_parameter('PacketInjectionRate', [i / 100 for i in range(5, 100, 10)])
-        s.set_parameter('SimulationTime', simulation_time)
-        s.set_parameter('WarmUpTime', warm_up_time)
+        s.set_parameter('SimulationTime', int(simulation_time))
+        s.set_parameter('WarmUpTime', int(warm_up_time))
 
         return s
 
@@ -659,7 +669,7 @@ class Topaz(QWidget):
         traffic_pattern_type = self.traffic_pattern_type.currentIndex()
         packet_length = self.packet_length.text()
         simulation_cycles = self.simulation_cycles.text()
-        model_name = self.model_name  # must be a str
+        model_name = self.model_name.text()  # must be a str
 
         if not message_length.isdigit():
             QMessageBox.warning(self, "Ошибка!",
@@ -704,17 +714,17 @@ class Topaz(QWidget):
                                 'Значение в поле "Simulation cycles" должно принимать значение от 1 до 256')
             return None
 
-        s.set_parameter('Simulation', model_name)
+        s.set_parameter('Simulation', model_name)  # must be a str
         s.set_parameter('TopologyArgs', list(map(int, network_arguments)))
-        s.set_parameter('SimulationCycles', simulation_cycles)
+        s.set_parameter('SimulationCycles', int(simulation_cycles))
         s.set_parameter('Router', router)
         s.set_parameter('TrafficPatternId', traffic_pattern)
         s.set_parameter('TopazTrafficPatternTypes', traffic_pattern_type)
         s.set_parameter('Seed', randint(1000, 9999))
         s.set_parameter('Load', [i / 10 for i in range(1, 11)])
-        s.set_parameter('MessageLength', message_length)
-        s.set_parameter('PacketLength', packet_length)
-        s.set_parameter('FlitSize', flit_size)
+        s.set_parameter('MessageLength', int(message_length))
+        s.set_parameter('PacketLength', int(packet_length))
+        s.set_parameter('FlitSize', int(flit_size))
 
         return s
 
@@ -792,8 +802,8 @@ class Dec9(QWidget):
 
         s.set_parameter('Topology', topology)
         s.set_parameter('TopologyArgs', list(map(int, topology_args)))
-        s.set_parameter('CycleCount', cycle_count)
-        s.set_parameter('MessageLength', message_length)
+        s.set_parameter('CycleCount', int(cycle_count))
+        s.set_parameter('MessageLength', int(message_length))
         s.set_parameter('InjectionRate', [i / 100 for i in range(5, 100, 10)])
 
         return s
@@ -952,21 +962,21 @@ class GpNocSim(QWidget):
                                 '2147483647')
             return None
 
-        if not warm_up_cycle.isdigit():
+        if not isfloat(warm_up_cycle):
             QMessageBox.warning(self, "Ошибка!",
                                 'Необходимо числовое значение в поле "Warm Up Cycle"')
             return None
 
         s.set_parameter('CurrentNet', topology)
         s.set_parameter('AvgInterArrival', [i * 10 for i in range(5, 15)])
-        s.set_parameter('AvgMessageLength', avg_message_len)
-        s.set_parameter('FlitLength', flit_length)
-        s.set_parameter('NumOfIpNode', number_of_nodes)
-        s.set_parameter('CurrentVcCount', virtual_channels_count)
-        s.set_parameter('NumFlitPerBuffer', number_of_flits)
-        s.set_parameter('NumCycle', number_of_cycles)
-        s.set_parameter('NumRun', number_of_cycles)
+        s.set_parameter('AvgMessageLength', int(avg_message_len))
+        s.set_parameter('FlitLength', int(flit_length))
+        s.set_parameter('NumOfIpNode', int(number_of_nodes))
+        s.set_parameter('CurrentVcCount', int(virtual_channels_count))
+        s.set_parameter('NumFlitPerBuffer', int(number_of_flits))
+        s.set_parameter('NumCycle', int(number_of_cycles))
+        s.set_parameter('NumRun', int(number_of_cycles))
         s.set_parameter('TrafficType', traffic_type)
-        s.set_parameter('WarmUpCycle', warm_up_cycle)
+        s.set_parameter('WarmUpCycle', float(warm_up_cycle))
 
         return s
