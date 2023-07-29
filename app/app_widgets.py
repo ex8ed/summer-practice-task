@@ -24,6 +24,24 @@ def isfloat(float_num_str):
         return True
 
 
+def show_msg_warning_box(title='MessageBox', text='Info'):
+    msg_box = QMessageBox()
+    msg_box.setIcon(QMessageBox.Icon.Warning)
+    msg_box.setWindowTitle(title)
+    msg_box.setText(text)
+    msg_box.show()
+    r = msg_box.exec()
+
+
+def show_msg_success_box(title='MessageBox', text='Info'):
+    msg_box = QMessageBox()
+    msg_box.setIcon(QMessageBox.Icon.Information)
+    msg_box.setWindowTitle(title)
+    msg_box.setText(text)
+    msg_box.show()
+    r = msg_box.exec()
+
+
 class Uocns(QWidget):
     def __init__(self):
         super().__init__(None)
@@ -125,71 +143,64 @@ class Uocns(QWidget):
         count_packet_rx_warm_up = self.count_packet_rx_warm_up.text()
 
         if not fifo_size.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "FIFO size"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "FIFO size"')
             return None
         elif int(fifo_size) < 1 or int(fifo_size) > 128:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "FIFO size" должно принимать значение от 1 до 128')
             return None
 
         if not fifo_count.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "FIFO count"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "FIFO count"')
             return None
         elif int(fifo_count) < 1 or int(fifo_count) > 10:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "FIFO count" должно принимать значение от 1 до 10')
             return None
 
         if not flit_size.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Flit size"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "Flit size"')
             return None
         elif int(flit_size) < 1 or int(flit_size) > 128:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Flit size" должно принимать значение от 1 до 128')
             return None
 
         for arg in topology_args:
             if not arg.isdigit():
-                QMessageBox.warning(self,
-                                    "Ошибка!",
+                show_msg_warning_box("Ошибка!",
                                     'Необходимы числовые значения в поле Topology args!\
                                     \nПомните, они должны быть корректными по документации')
                 return None
 
         if not count_run.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Count run"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "Count run"')
             return None
         elif int(count_run) != 1:
-            QMessageBox.warning(self, "Ошибка!", 'Значение в поле "Count run" должно принимать значение 1')
+            show_msg_warning_box("Ошибка!", 'Значение в поле "Count run" должно принимать значение 1')
             return None
 
         if not count_packet_rx.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Count packet rx"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "Count packet rx"')
             return None
         elif int(count_packet_rx) < 100 or int(count_packet_rx) > 10000:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Count packet rx" должно принимать значение от 100 до 10000')
             return None
 
         if not packet_size_avg.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Packet size avg"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "Packet size avg"')
             return None
         elif int(packet_size_avg) < 1 or int(packet_size_avg) > 100:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Packet size avg" должно принимать значение от 1 до 100')
             return None
 
         if not count_packet_rx_warm_up.isdigit():
-            QMessageBox.warning(self, "Ошибка!", 'Необходимо числовое значение в поле "Count packet rx warm up"')
+            show_msg_warning_box("Ошибка!", 'Необходимо числовое значение в поле "Count packet rx warm up"')
             return None
         elif int(count_packet_rx_warm_up) < 0 or int(count_packet_rx_warm_up) > 1000:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Count packet rx warm up" должно принимать значение от 0 до 1000')
             return None
 
@@ -311,70 +322,63 @@ class Booksim(QWidget):
         max_samples = self.max_samples.text()
 
         if not virtual_channels_number.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Virtual channels number"')
             return None
         elif int(virtual_channels_number) < 1 or int(virtual_channels_number) > 10:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Virtual channels number" должно принимать значение от 1 до 10')
             return None
 
         if not sample_period.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Sample period, cycles"')
             return None
         elif int(sample_period) < 5000 or int(sample_period) > 100000:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Sample period, cycles" должно принимать значение от 5000 до 100000')
             return None
 
         for arg in topology_args:
             if not arg.isdigit():
-                QMessageBox.warning(self,
-                                    "Ошибка!",
+                show_msg_warning_box("Ошибка!",
                                     'Необходимы числовые значения в поле Topology args\
                                     \nПомните, они должны быть корректными по документации')
                 return None
 
         if not virtual_channels_buffer.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Virtual channels buffer size"')
             return None
         elif int(virtual_channels_buffer) < 1 or int(virtual_channels_buffer) > 128:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Virtual channels buffer size" должно принимать значение от 1 до 128')
             return None
 
         if not packet_size.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Packet size, flits"')
             return None
         elif int(packet_size) < 1 or int(packet_size) > 100:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Packet size, flits" должно принимать значение от 1 до 100')
             return None
 
         if not warm_up_periods.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Warm up periods, cycles"')
             return None
         elif int(warm_up_periods) < 0 or int(warm_up_periods) > 10:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Warm up periods, cycles" должно принимать значение от 0 до 10')
             return None
 
         if not max_samples.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Max samples, cycles"')
             return None
         elif int(max_samples) < 1 or int(max_samples) > 10:
-            QMessageBox.warning(self,
-                                "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Поле "Max samples, cycles" должно принимать значение от 1 до 10')
             return None
 
@@ -496,73 +500,72 @@ class Newxim(QWidget):
         max_packet_size = self.max_packet_size.text()
 
         if not topology_channels.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Topology channels"')
             return None
         elif int(topology_channels) != 1:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Topology channels" должно принимать значение 1')
             return None
 
         if not simulation_time.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Simulation time"')
             return None
         elif int(simulation_time) < 5000 or int(simulation_time) > 100000:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Simulation time" должно принимать значение от 5000 до 100000')
             return None
 
         for arg in topology_args:
             if not arg.isdigit():
-                QMessageBox.warning(self,
-                                    "Ошибка!",
+                show_msg_warning_box("Ошибка!",
                                     'Необходимы числовые значения в поле Topology args\
                                     \nПомните, они должны быть корректными по документации')
                 return None
 
         if not virtual_channels.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Virtual channels"')
             return None
         elif int(virtual_channels) < 1 or int(virtual_channels) > 10:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Virtual channels" должно принимать значение от 1 до 10')
             return None
 
         if not min_packet_size.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Min packet size, flits"')
             return None
         elif int(min_packet_size) < 1 or int(min_packet_size) > 100:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Min packet size, flits" должно принимать значение от 1 до 100')
             return None
 
         if not warm_up_time.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Warm up time, cycles"')
             return None
         elif int(warm_up_time) < 0 or int(warm_up_time) > 10:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Warm up time, cycles" должно принимать значение от 1 до 10')
             return None
 
         if not buffer_depth.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Buffer depth, flits"')
             return None
         elif int(buffer_depth) < 1 or int(buffer_depth) > 128:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Buffer depth, flits" должно принимать значение от 1 до 128')
             return None
 
         if not max_packet_size.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Max packet size, flits"')
             return None
         elif int(max_packet_size) < 1 or int(max_packet_size) > 100:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Max packet size, flits" должно принимать значение от 1 до 100')
             return None
 
@@ -672,45 +675,45 @@ class Topaz(QWidget):
         model_name = self.model_name.text()  # must be a str
 
         if not message_length.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Message length, packets"')
             return None
         elif int(message_length) != 1:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Message length, packets" должно принимать значение 1')
             return None
 
         if not flit_size.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Flit size, bits"')
             return None
         elif int(flit_size) < 1 or int(flit_size) > 256:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Flit size, bits" должно принимать значение от 1 до 256')
             return None
 
         for arg in network_arguments:
             if not arg.isdigit():
-                QMessageBox.warning(self, "Ошибка!",
+                show_msg_warning_box("Ошибка!",
                                     'Необходимы числовые значения в поле "Network arguments"\
                                     \nПомните, они должны быть корректными по документации!')
                 return None
 
         if not packet_length.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Packet length, flits"')
             return None
         elif int(packet_length) < 1 or int(packet_length) > 100:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Packet length, flits" должно принимать значение от 1 до 256')
             return None
 
         if not simulation_cycles.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Simulation cycles"')
             return None
         elif int(simulation_cycles) < 5000 or int(simulation_cycles) > 100000:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Simulation cycles" должно принимать значение от 1 до 256')
             return None
 
@@ -776,27 +779,26 @@ class Dec9(QWidget):
 
         for arg in topology_args:
             if not arg.isdigit():
-                QMessageBox.warning(self,
-                                    "Ошибка!",
+                show_msg_warning_box("Ошибка!",
                                     'Необходимы числовые значения в поле Topology args\
                                     \nПомните, они должны быть корректными по документации')
                 return None
 
         if not cycle_count.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Cycle count"')
             return None
         elif int(cycle_count) < 500 or int(cycle_count) > 100000:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Cycle count" должно принимать значение от 500 до 100000')
             return None
 
         if not message_length.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Message length"')
             return None
         elif int(message_length) < 1 or int(message_length) > 100:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Message length" должно принимать значение от 1 до 100')
             return None
 
@@ -893,77 +895,77 @@ class GpNocSim(QWidget):
         traffic_type = self.traffic_type.currentIndex()
 
         if not avg_message_len.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Average message length"')
             return None
         elif int(avg_message_len) < -2147483648 or int(avg_message_len) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Average message length" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not flit_length.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Flit length"')
             return None
         elif int(flit_length) < -2147483648 or int(flit_length) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Flit length" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not number_of_nodes.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Number of nodes"')
             return None
         elif int(number_of_nodes) < -2147483648 or int(number_of_nodes) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Number of nodes" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not virtual_channels_count.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Virtual channels count"')
             return None
         elif int(virtual_channels_count) < -2147483648 or int(virtual_channels_count) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Virtual channels count" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not number_of_flits.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Number of flits"')
             return None
         elif int(number_of_flits) < -2147483648 or int(number_of_flits) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Number of flits" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not number_of_cycles.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Number of cycles"')
             return None
         elif int(number_of_cycles) < -2147483648 or int(number_of_cycles) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Number of cycles" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not number_of_runs.isdigit():
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Number of runs"')
             return None
         elif int(number_of_runs) < -2147483648 or int(number_of_runs) > 2147483647:
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Значение в поле "Number of runs" должно принимать значение от -2147483648 до '
                                 '2147483647')
             return None
 
         if not isfloat(warm_up_cycle):
-            QMessageBox.warning(self, "Ошибка!",
+            show_msg_warning_box("Ошибка!",
                                 'Необходимо числовое значение в поле "Warm Up Cycle"')
             return None
 

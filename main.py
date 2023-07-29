@@ -21,7 +21,9 @@ from app.app_widgets import (Uocns,
                              Newxim,
                              Topaz,
                              Dec9,
-                             GpNocSim)
+                             GpNocSim,
+                             show_msg_warning_box,
+                             show_msg_success_box)
 
 from config.style_settings import (Q_MAIN_WINDOW_STYLE,
                                    Q_SIM_COMBO_BOX_WIDTH,
@@ -111,11 +113,11 @@ class SimulatorApp(QMainWindow):
 
     def __save_info_to_file(self):
         if self.file_name.text() == "":
-            QMessageBox.warning(self, "Ошибка!", 'Имя файла не может быть пустым!')
+            show_msg_warning_box("Ошибка!", 'Имя файла не может быть пустым!')
             return
 
         if self.directory_name == "":
-            QMessageBox.warning(self, "Ошибка!", 'Имя директории не может быть пустым!')
+            show_msg_warning_box("Ошибка!", 'Имя директории не может быть пустым!')
             return
 
         e = Extractor(self.file_name.text(), dir_=self.directory_name.text()+'/')
@@ -123,7 +125,7 @@ class SimulatorApp(QMainWindow):
         sim = self.ui_list[self.c_box.currentIndex()].read_fields()
         json_model = e.to_json(sim.export())
         e.writer(json_model)
-        QMessageBox.information(self, 'Успех!', 'Файл успешно записан!')
+        show_msg_success_box('Успех!', 'Файл успешно записан!')
 
 
 def main():
