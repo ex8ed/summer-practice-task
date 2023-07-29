@@ -13,8 +13,7 @@ from PySide6.QtWidgets import (QApplication,
                                QWidget,
                                QStackedWidget,
                                QPushButton,
-                               QFileDialog,
-                               QMessageBox)
+                               QFileDialog)
 
 from app.app_widgets import (Uocns,
                              Booksim,
