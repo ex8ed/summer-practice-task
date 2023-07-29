@@ -38,7 +38,7 @@ class Uocns(QWidget):
         layout.addWidget(QLabel('Topology', self), row, 0)
         self.topology = QComboBox(self)
         self.topology.addItems(['Mesh', 'Circulant', 'Torus', 'CirculantOpt'])
-        self.topology.setCurrentIndex(-1)
+        self.topology.setCurrentIndex(0)
         layout.addWidget(self.topology)
 
         row += 1
@@ -70,7 +70,7 @@ class Uocns(QWidget):
         layout.addWidget(QLabel('Algorithm', self), row, 0)
         self.algorithm = QComboBox(self)
         self.algorithm.addItems(['Dijkstra', 'PO', 'POU'])
-        self.algorithm.setCurrentIndex(-1)
+        self.algorithm.setCurrentIndex(0)
         layout.addWidget(self.algorithm)
 
         row = 1
@@ -92,14 +92,14 @@ class Uocns(QWidget):
         layout.addWidget(QLabel('Packet size is fixed', self), row, 2)
         self.packet_size_is_fixed = QComboBox(self)
         self.packet_size_is_fixed.addItems(['True', 'False'])
-        self.packet_size_is_fixed.setCurrentIndex(-1)
+        self.packet_size_is_fixed.setCurrentIndex(0)
         layout.addWidget(self.packet_size_is_fixed, row, 3)
 
         row += 1
         layout.addWidget(QLabel('Is mode GALS', self), row, 2)
         self.is_mode_gals = QComboBox(self)
         self.is_mode_gals.addItems(['True', 'False'])
-        self.is_mode_gals.setCurrentIndex(-1)
+        self.is_mode_gals.setCurrentIndex(0)
         layout.addWidget(self.is_mode_gals, row, 3)
 
         row += 1
@@ -225,7 +225,7 @@ class Booksim(QWidget):
         layout.addWidget(QLabel('Topology', self), row, 0)
         self.topology = QComboBox(self)
         self.topology.addItems(['Mesh', 'Torus'])
-        self.topology.setCurrentIndex(-1)
+        self.topology.setCurrentIndex(0)
         layout.addWidget(self.topology, row, 1)
 
         row += 1
@@ -243,7 +243,7 @@ class Booksim(QWidget):
                                             'Transpose',
                                             'Tomado',
                                             'Neighbor'])
-        self.traffic_distribution.setCurrentIndex(-1)
+        self.traffic_distribution.setCurrentIndex(0)
         layout.addWidget(self.traffic_distribution)
 
         row += 1
@@ -279,7 +279,7 @@ class Booksim(QWidget):
                                         'DOR No Express',
                                         'Min',
                                         'RanMin'])
-        self.routing_function.setCurrentIndex(-1)
+        self.routing_function.setCurrentIndex(0)
         layout.addWidget(self.routing_function, row, 3)
 
         row += 1
@@ -287,7 +287,7 @@ class Booksim(QWidget):
         self.simulation_type = QComboBox(self)
         self.simulation_type.addItems(['Latency',
                                        'Throughput'])
-        self.simulation_type.setCurrentIndex(-1)
+        self.simulation_type.setCurrentIndex(0)
         layout.addWidget(self.simulation_type, row, 3)
 
         row += 1
@@ -413,7 +413,7 @@ class Newxim(QWidget):
                                 'Torus',
                                 'Tree',
                                 'Circulant'])
-        self.topology.setCurrentIndex(-1)
+        self.topology.setCurrentIndex(0)
         layout.addWidget(self.topology)
 
         row += 1
@@ -428,7 +428,7 @@ class Newxim(QWidget):
                                           'Buffer level',
                                           'Keep space',
                                           'Random keep space'])
-        self.selection_strategy.setCurrentIndex(-1)
+        self.selection_strategy.setCurrentIndex(0)
         layout.addWidget(self.selection_strategy)
 
         row += 1
@@ -467,7 +467,7 @@ class Newxim(QWidget):
                                          'Circulant Multiplicative',
                                          'Circulant Clockwise',
                                          'Circulant Adaptive'])
-        self.routing_algorithm.setCurrentIndex(-1)
+        self.routing_algorithm.setCurrentIndex(0)
         layout.addWidget(self.routing_algorithm, row, 3)
 
         row += 1
@@ -606,14 +606,14 @@ class Topaz(QWidget):
                               'Mesh CT FAST NOC',
                               'Torus CT NOC',
                               'Torus Bless'])
-        self.router.setCurrentIndex(-1)
+        self.router.setCurrentIndex(0)
         layout.addWidget(self.router)
 
         row += 1
         layout.addWidget(QLabel('Traffic pattern', self), row, 0)
         self.traffic_pattern = QComboBox(self)
         self.traffic_pattern.addItems(['Modal', 'Reactive'])
-        self.traffic_pattern.setCurrentIndex(-1)
+        self.traffic_pattern.setCurrentIndex(0)
         layout.addWidget(self.traffic_pattern)
 
         row += 1
@@ -640,7 +640,7 @@ class Topaz(QWidget):
                                             'Permutation',
                                             'Tornado',
                                             'Local'])
-        self.traffic_pattern_type.setCurrentIndex(-1)
+        self.traffic_pattern_type.setCurrentIndex(0)
         layout.addWidget(self.traffic_pattern_type)
 
         row = 1
@@ -744,7 +744,7 @@ class Dec9(QWidget):
         layout.addWidget(QLabel('Topology', self), row, 0)
         self.topology = QComboBox(self)
         self.topology.addItems(['Mesh', 'Circulant'])
-        self.topology.setCurrentIndex(-1)
+        self.topology.setCurrentIndex(0)
         self.topology.setFixedWidth(DEC_9_WIDGET_COMBO_BOX_WIDTH)
         layout.addWidget(self.topology)
 
@@ -828,7 +828,7 @@ class GpNocSim(QWidget):
                                 'Torus',
                                 'Tree',
                                 'Circulant'])
-        self.topology.setCurrentIndex(-1)
+        self.topology.setCurrentIndex(0)
         layout.addWidget(self.topology)
 
         row += 1
@@ -875,7 +875,7 @@ class GpNocSim(QWidget):
         layout.addWidget(QLabel('Traffic type', self), row, 2)
         self.traffic_type = QComboBox(self)
         self.traffic_type.addItems(['Uniform', 'Local'])
-        self.traffic_type.setCurrentIndex(-1)
+        self.traffic_type.setCurrentIndex(0)
         layout.addWidget(self.traffic_type, row, 3)
 
     def read_fields(self):
